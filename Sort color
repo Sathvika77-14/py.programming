@@ -1,0 +1,34 @@
+class Solution(object):
+    def sortColors(self, nums):
+        # Keep three counter to count 0s, 1s and 2s...
+        count0s = 0
+        count1s = 0
+        count2s = 0
+        # Traverse the array & Count the number of 0s, 1s and 2s in the array...
+        for idx in range(len(nums)):
+            # If the element is 0 then increase count0s...
+            if nums[idx] == 0:
+                count0s += 1
+            # If the element is 1 then increase count1s...
+            elif nums[idx] == 1:
+                count1s += 1
+            # If the element is 2 then increase count2s...
+            elif nums[idx] == 2:
+                count2s += 1
+        # Update the array
+        idx = 0;
+        # Store all the 0s in the beginning...
+        while (count0s > 0):
+            nums[idx] = 0
+            idx += 1
+            count0s -= 1
+        # Then store all the 1s...
+        while (count1s > 0):
+            nums[idx] = 1
+            idx += 1
+            count1s -= 1
+        # Finally store all the 2s...
+        while (count2s > 0):
+            nums[idx] = 2
+            idx += 1
+            count2s -= 1
