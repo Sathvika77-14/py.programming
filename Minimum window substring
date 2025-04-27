@@ -1,0 +1,71 @@
+class Solution(object):
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        # Verify compare both the frequency array of 
+        # both current substring of s and t and makes sure 
+        # array of substring of s contains atleast if not more than a particular character in t
+        def verify(s_arr, t_arr):
+            for i in range(52):
+                if s_arr[i] < t_arr[i]:
+                    return False
+            return True
+
+        # make sure t is longer than s
+        ls, lt = len(s), len(t)
+        if lt > ls: return ""
+
+        # Initializing Frequency array for string s and t, sliding window variables
+        # and Sol list
+        aas, at = [0] * 52, [0] * 52
+        i, j = 0, 0
+        sol = [] # (i, j)
+
+        # Populate frequency array of t
+        for _ in t:
+            if _.isupper():
+                at[ord(_) - ord('A')] += 1 # Indices 0 - 25 for uppercase letters
+            else:
+                at[ord(_) - ord('a') + 26] += 1 # Indices 26 - 51 for lowercase letters
+
+        # Loop through String s
+        while j < len(s):
+            # Verify current substring and if valid append start and end to sol list while incrementing i
+            while (verify(aas, at)) and ((j - i + 1) >= lt):
+                sol.append((i, j - 1))
+                if s[i].isupper():
+                    aas[ord(s[i]) - ord('A')] -= 1
+                else:
+                    aas[ord(s[i]) - ord('a') + 26] -= 1
+                i += 1
+            # Update index j and increment j
+            if s[j].isupper():
+                aas[ord(s[j]) - ord('A')] += 1
+            else:
+                aas[ord(s[j]) - ord('a') + 26] += 1
+            j += 1
+
+        # Process the remaining S after j reached end of string
+        while (verify(aas, at)) and ((j - i + 1) >= lt):
+            sol.append((i, j - 1))
+            if s[i].isupper():
+                aas[ord(s[i]) - ord('A')] -= 1
+            else:
+                aas[ord(s[i]) - ord('a') + 26] -= 1
+            i += 1
+
+        # Initialize variabled to keep track of min length and update the string if new min found
+        min_len = float("inf")
+        min_str = ""
+        for start, end in sol:
+            if (end - start + 1) < min_len:
+                # Handle index out of bound exception for string slicing
+                if end == len(s) - 1:
+                    min_str = s[start:]
+                else:
+                    min_str = s[start: end + 1]
+                min_len = end - start + 1
+        return min_str
