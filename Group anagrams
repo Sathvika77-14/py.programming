@@ -1,0 +1,15 @@
+from collections import defaultdict
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        d=defaultdict(list)
+        for i in strs:
+            sort=''.join(sorted(i))
+            if sort in d:
+                d[sort].append(i)
+            else:
+                d[sort].append(i)
+        return(list(d.values()))
