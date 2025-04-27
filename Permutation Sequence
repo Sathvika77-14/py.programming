@@ -1,0 +1,13 @@
+import math
+class Solution(object):
+    def getPermutation(self, n, k):
+        combinations = math.factorial(n)
+        nums = [str(i) for i in range(1, n+1)]
+        digits = ''
+        for i in range(n, 1, -1):
+            combinations = combinations/i
+            (bucket, k) = divmod(k, combinations)
+            if k == 0: bucket -= 1
+            digits += nums[bucket]
+            del nums[bucket]
+        return digits + nums[0]
