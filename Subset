@@ -1,0 +1,17 @@
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        n = len(nums)
+        total = 1 << n
+        result = []
+
+        for mask in range(total):
+            subset = [
+                nums[i] for i in range(n) if mask & (1 << i)
+            ]
+            result.append(subset)
+
+        return result
